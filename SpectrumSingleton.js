@@ -122,7 +122,7 @@ class SpectrumSingleton {
             if (!tooltipIsVisible) {
                 $("#color-popover").spectrum("set", element.getElementsByClassName('sp-preview-inner')[0].style.backgroundColor);
                 this.tooltip.style.display = 'block';
-                this.tooltip.style.top = rect.bottom;
+                this.tooltip.style.top = rect.bottom + window.pageYOffset;
                 this.tooltip.style.left = rect.left;
                 hideOnClickOutside(this.tooltip);
             }
