@@ -13,10 +13,7 @@ class SpectrumSingleton {
             showPalette: true,
             move: (color) => {
                 this.currentElement.getElementsByClassName('sp-preview-inner')[0].style.backgroundColor = color.toHexString();
-                this.tooltip.style.display = 'none';
-            },
-            hide: () => {
-                this.tooltip.style.display = 'none';
+                // document.dispatchEvent(new Event('click'));
             },
             palette: [
                 ["#000", "#444", "#666", "#999", "#ccc", "#eee", "#f3f3f3", "#fff"],
@@ -115,25 +112,20 @@ class SpectrumSingleton {
      */
     toggleColorPicker(element) {
         this.currentElement = element;
-        $("#color-popover").spectrum("set", element.getElementsByClassName('sp-preview-inner')[0].style.backgroundColor);
-
         const tooltipRect = this.tooltip.getBoundingClientRect();
         const rect = element.getBoundingClientRect();
-
-        if (
-            tooltipRect.top == rect.bottom &&
+        const tooltipIsVisible = tooltipRect.top == rect.bottom &&
             tooltipRect.left == rect.left &&
-            this.tooltip.style.display == "block"
-        ) {
-            this.tooltip.style.display = 'none';
-        } else {
-            this.tooltip.style.display = 'block';
-            // setTimeout(() => hideOnClickOutside(this.tooltip), 0);
-            
-        }
-        this.tooltip.style.top = rect.bottom;
-        this.tooltip.style.left = rect.left;
+            this.tooltip.style.display == "block";
+
+        setTimeout(() => {
+            if (!tooltipIsVisible) {
+                $("#color-popover").spectrum("set", element.getElementsByClassName('sp-preview-inner')[0].style.backgroundColor);
+                this.tooltip.style.display = 'block';
+                this.tooltip.style.top = rect.bottom;
+                this.tooltip.style.left = rect.left;
+                hideOnClickOutside(this.tooltip);
+            }
+        }, 0);
     }
 }
-
-document.addEventListener('click', () => console.log('click'));
