@@ -13,7 +13,13 @@ class SpectrumSingleton {
             showPalette: true,
             move: (color) => {
                 this.currentElement.getElementsByClassName('sp-preview-inner')[0].style.backgroundColor = color.toHexString();
-                // document.dispatchEvent(new Event('click'));
+            },
+            change: (color) => {
+                if (this.tooltip.style.display != 'none') {
+                    this.tooltip.style.display = 'none';
+                    // Get Rid of outside-click listener
+                    document.dispatchEvent(new Event('click'));
+                }
             },
             palette: [
                 ["#000", "#444", "#666", "#999", "#ccc", "#eee", "#f3f3f3", "#fff"],
